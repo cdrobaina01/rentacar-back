@@ -1,0 +1,10 @@
+# @name getAll
+
+GET {{server}}/api/brand
+Accept: application/json
+
+###
+
+# @name getById
+
+GET {{server}}/api/brand/{{goodId}}

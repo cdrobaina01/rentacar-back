@@ -1,0 +1,1 @@
+ALTER SEQUENCE brand_id_seq RESTART WITH 1;
