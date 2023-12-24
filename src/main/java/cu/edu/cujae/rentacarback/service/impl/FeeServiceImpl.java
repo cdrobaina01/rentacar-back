@@ -34,6 +34,7 @@ public class FeeServiceImpl implements FeeService {
         return feeRepository.findById(id)
                 .map(fee -> {
                     fee.setName(newFee.getName());
+                    fee.setValue(newFee.getValue());
                     return feeRepository.save(fee);
                 });
     }
