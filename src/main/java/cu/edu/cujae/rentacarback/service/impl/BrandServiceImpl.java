@@ -45,7 +45,6 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Optional<Brand> delete(Integer id) {
-        System.out.println(brandRepository.findById(id).get().getModels());
         return brandRepository.findById(id).map(brand -> {
             brandRepository.delete(brand);
             return brand;
