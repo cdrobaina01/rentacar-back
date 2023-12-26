@@ -1,6 +1,5 @@
 package cu.edu.cujae.rentacarback.dto;
 
-import cu.edu.cujae.rentacarback.model.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
