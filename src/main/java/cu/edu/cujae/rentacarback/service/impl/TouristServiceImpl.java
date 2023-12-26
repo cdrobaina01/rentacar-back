@@ -1,53 +1,92 @@
 package cu.edu.cujae.rentacarback.service.impl;
 
+import cu.edu.cujae.rentacarback.dto.CountryDTO;
+import cu.edu.cujae.rentacarback.dto.TouristDTO;
+import cu.edu.cujae.rentacarback.dto.save.TouristSaveDTO;
+import cu.edu.cujae.rentacarback.model.Country;
+import cu.edu.cujae.rentacarback.model.Gender;
 import cu.edu.cujae.rentacarback.model.Tourist;
+import cu.edu.cujae.rentacarback.repository.CountryRepository;
+import cu.edu.cujae.rentacarback.repository.GenderRepository;
 import cu.edu.cujae.rentacarback.repository.TouristRepository;
 import cu.edu.cujae.rentacarback.service.core.TouristService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TouristServiceImpl implements TouristService {
     @Autowired
     private TouristRepository touristRepository;
+    private final ModelMapper mapper = new ModelMapper();
+
+    @Autowired
+    private GenderRepository genderRepository;
+    @Autowired
+    private CountryRepository countryRepository;
 
     @Override
-    public List<Tourist> findAll() {
-        return touristRepository.findAll();
+    public List<TouristDTO> findAll() {
+        return touristRepository.findAll().stream()
+                .map(tourist -> mapper.map(tourist, TouristDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Tourist> findById(String passport) {
-        return touristRepository.findById(passport);
+    public Optional<TouristDTO> findById(String passport) {
+        return touristRepository.findById(passport).map(tourist -> mapper.map(tourist, TouristDTO.class));
     }
 
     @Override
-    public Tourist create(Tourist tourist) {
-        return touristRepository.save(tourist);
+    public Optional<TouristDTO> create(TouristSaveDTO tourist) throws DataIntegrityViolationException {
+        Optional<Gender> gender = genderRepository.findById(tourist.getGenderId());
+        Optional<Country> country = countryRepository.findById(tourist.getCountryId());
+        if (gender.isEmpty() || country.isEmpty()) {
+            return  Optional.empty();
+        }
+        return Optional.of(mapper.map(
+                touristRepository.save(new Tourist(
+                        tourist.getPassport(),
+                        tourist.getName(),
+                        tourist.getAge(),
+                        tourist.getPhone(),
+                        tourist.getEmail(),
+                        gender.get(),
+                        country.get(),
+                        null
+                )),
+                TouristDTO.class
+        ));
     }
 
     @Override
-    public Optional<Tourist> update(String passport, Tourist newTourist) {
-        return touristRepository.findById(passport)
-                .map(tourist -> {
-                    tourist.setName(newTourist.getName());
-                    tourist.setAge(newTourist.getAge());
-                    tourist.setEmail(newTourist.getEmail());
-                    tourist.setGender(newTourist.getGender());
-                    tourist.setPhone(newTourist.getPhone());
-                    tourist.setCountry(newTourist.getCountry());
-                    return touristRepository.save(tourist);
-                });
+    public Optional<TouristDTO> update(String passport, TouristSaveDTO newTourist) throws DataIntegrityViolationException {
+        Optional<Gender> gender = genderRepository.findById(newTourist.getGenderId());
+        Optional<Country> country = countryRepository.findById(newTourist.getCountryId());
+        if (gender.isEmpty() || country.isEmpty()) {
+            return  Optional.empty();
+        }
+        return touristRepository.findById(passport).map(tourist -> {
+            tourist.setName(newTourist.getName());
+            tourist.setAge(newTourist.getAge());
+            tourist.setEmail(newTourist.getEmail());
+            tourist.setGender(gender.get());
+            tourist.setPhone(newTourist.getPhone());
+            tourist.setCountry(country.get());
+            return mapper.map(touristRepository.save(tourist), TouristDTO.class);
+        });
     }
 
     @Override
-    public Optional<Tourist> delete(String passport) {
+    public Optional<TouristDTO> delete(String passport) {
         return touristRepository.findById(passport).map(tourist -> {
             touristRepository.delete(tourist);
-            return tourist;
+            return mapper.map(tourist, TouristDTO.class);
         });
     }
 }

@@ -44,17 +44,16 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Optional<BrandDTO> update(Integer id, AuxiliarySaveDTO newBrand) throws DataIntegrityViolationException{
         return brandRepository.findById(id).map(brand -> {
-                    brand.setName(newBrand.getName());
-                    return mapper.map(brandRepository.save(brand), BrandDTO.class);
+            brand.setName(newBrand.getName());
+            return mapper.map(brandRepository.save(brand), BrandDTO.class);
         });
     }
 
     @Override
     public Optional<BrandDTO> delete(Integer id) {
-        return brandRepository.findById(id)
-                .map(brand -> {
-                    brandRepository.delete(brand);
-                    return mapper.map(brand, BrandDTO.class);
+        return brandRepository.findById(id).map(brand -> {
+            brandRepository.delete(brand);
+            return mapper.map(brand, BrandDTO.class);
         });
     }
 }

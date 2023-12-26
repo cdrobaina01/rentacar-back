@@ -58,18 +58,17 @@ public class ModelServiceImpl implements ModelService {
             return Optional.empty();
         }
         return modelRepository.findById(id).map(model -> {
-                    model.setName(newModel.getName());
-                    model.setBrand(brand.get());
-                    return mapper.map(modelRepository.save(model), ModelDTO.class);
+            model.setName(newModel.getName());
+            model.setBrand(brand.get());
+            return mapper.map(modelRepository.save(model), ModelDTO.class);
         });
     }
 
     @Override
     public Optional<ModelDTO> delete(Integer id) {
-        return modelRepository.findById(id)
-                .map(model -> {
-                    modelRepository.delete(model);
-                    return mapper.map(model, ModelDTO.class);
+        return modelRepository.findById(id).map(model -> {
+            modelRepository.delete(model);
+            return mapper.map(model, ModelDTO.class);
         });
     }
 }
