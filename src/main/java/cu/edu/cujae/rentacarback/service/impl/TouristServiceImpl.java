@@ -1,6 +1,5 @@
 package cu.edu.cujae.rentacarback.service.impl;
 
-import cu.edu.cujae.rentacarback.dto.CountryDTO;
 import cu.edu.cujae.rentacarback.dto.TouristDTO;
 import cu.edu.cujae.rentacarback.dto.save.TouristSaveDTO;
 import cu.edu.cujae.rentacarback.model.Country;

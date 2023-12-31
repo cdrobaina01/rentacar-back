@@ -1,4 +1,4 @@
-package cu.edu.cujae.rentacarback.api.controller;
+package cu.edu.cujae.rentacarback.controller;
 
 import cu.edu.cujae.rentacarback.dto.ContractDTO;
 import cu.edu.cujae.rentacarback.dto.save.ContractSaveDTO;

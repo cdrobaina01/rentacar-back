@@ -1,40 +1,37 @@
-package cu.edu.cujae.rentacarback.api.controller;
+package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.SituationDTO;
+import cu.edu.cujae.rentacarback.dto.CategoryDTO;
 import cu.edu.cujae.rentacarback.dto.save.AuxiliarySaveDTO;
-import cu.edu.cujae.rentacarback.model.Situation;
-import cu.edu.cujae.rentacarback.service.core.SituationService;
-import org.modelmapper.ModelMapper;
+import cu.edu.cujae.rentacarback.service.core.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/situation")
-public class SituationController {
+@RequestMapping("/category")
+public class CategoryController {
     @Autowired
-    private SituationService situationService;
+    private CategoryService categoryService;
 
     @GetMapping
-    public List<SituationDTO> getAll() {
-        return situationService.findAll();
+    public List<CategoryDTO> getAll() {
+        return categoryService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SituationDTO> getById(@PathVariable Integer id) {
-        return situationService.findById(id)
+    public ResponseEntity<CategoryDTO> getById(@PathVariable Integer id) {
+        return categoryService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<SituationDTO> create(@RequestBody AuxiliarySaveDTO situation) {
+    public ResponseEntity<CategoryDTO> create(@RequestBody AuxiliarySaveDTO category) {
         try {
-            return situationService.create(situation)
+            return categoryService.create(category)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.badRequest().build());
         } catch (DataIntegrityViolationException exception) {
@@ -43,19 +40,19 @@ public class SituationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SituationDTO> update(@PathVariable Integer id, @RequestBody AuxiliarySaveDTO situation) {
+    public ResponseEntity<CategoryDTO> update(@PathVariable Integer id, @RequestBody AuxiliarySaveDTO category) {
         try {
-            return situationService.update(id, situation)
+            return categoryService.update(id, category)
                     .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
+                    .orElse(ResponseEntity.badRequest().build());
         } catch (DataIntegrityViolationException exception) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<SituationDTO> delete(@PathVariable Integer id) {
-        return situationService.delete(id)
+    public ResponseEntity<CategoryDTO> delete(@PathVariable Integer id) {
+        return categoryService.delete(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
