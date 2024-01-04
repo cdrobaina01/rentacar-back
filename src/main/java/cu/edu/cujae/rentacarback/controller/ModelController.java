@@ -1,59 +1,42 @@
 package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.ModelDTO;
-import cu.edu.cujae.rentacarback.dto.save.ModelSaveDTO;
-import cu.edu.cujae.rentacarback.service.core.ModelService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
+import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
+import cu.edu.cujae.rentacarback.model.Model;
+import cu.edu.cujae.rentacarback.service.ModelService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/model")
+@RequiredArgsConstructor
 public class ModelController {
-    @Autowired
-    private ModelService modelService;
+    private final ModelService modelService;
 
     @GetMapping
-    public List<ModelDTO> getAll() {
+    public List<Model> getAll() {
         return modelService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ModelDTO> getById(@PathVariable Integer id) {
-        return modelService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Model getById(@PathVariable Integer id) {
+        return modelService.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<ModelDTO> create(@RequestBody ModelSaveDTO model) {
-        try {
-            return modelService.create(model)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.badRequest().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Model create(@RequestBody @Valid Model model) throws UniqueValueException {
+        return modelService.create(model);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ModelDTO> update(@PathVariable Integer id, @RequestBody ModelSaveDTO model) {
-        try {
-            return modelService.update(id, model)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Model update(@PathVariable Integer id, @RequestBody @Valid Model model) throws UniqueValueException {
+        return modelService.update(id, model);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ModelDTO> delete(@PathVariable Integer id) {
-        return modelService.delete(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Model delete(@PathVariable Integer id) {
+        return modelService.delete(id);
     }
 }

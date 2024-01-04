@@ -1,5 +1,6 @@
 package cu.edu.cujae.rentacarback.controller;
 
+import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
 import cu.edu.cujae.rentacarback.model.Brand;
 import cu.edu.cujae.rentacarback.service.BrandService;
 import jakarta.validation.Valid;
@@ -25,12 +26,12 @@ public class BrandController {
     }
 
     @PostMapping
-    public Brand create(@RequestBody @Valid Brand brand) {
+    public Brand create(@RequestBody @Valid Brand brand) throws UniqueValueException {
         return brandService.create(brand);
     }
 
     @PutMapping("/{id}")
-    public Brand update(@PathVariable Integer id, @RequestBody Brand brand) {
+    public Brand update(@PathVariable Integer id, @RequestBody @Valid Brand brand) throws UniqueValueException {
         return brandService.update(id, brand);
     }
 

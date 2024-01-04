@@ -1,6 +1,7 @@
 package cu.edu.cujae.rentacarback.service;
 
 import cu.edu.cujae.rentacarback.exceptions.NotFoundException;
+import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -8,8 +9,7 @@ import java.util.List;
 public abstract class CrudService<Entity, Key> {
     protected abstract String getEntityName();
     protected abstract JpaRepository<Entity, Key> repository();
-
-    protected abstract void validateKeys(Entity entity);
+    protected abstract void validateKeys(Entity entity) throws UniqueValueException;
     protected abstract Entity updateData(Entity entity, Entity data);
 
     public List<Entity> findAll() {
@@ -17,16 +17,15 @@ public abstract class CrudService<Entity, Key> {
     }
 
     public Entity findById(Key key) throws NotFoundException {
-        System.out.println("A");
         return repository().findById(key).orElseThrow(() -> new NotFoundException(getEntityName(), key.toString()));
     }
 
-    public Entity create(Entity entity) {
+    public Entity create(Entity entity) throws UniqueValueException {
         validateKeys(entity);
         return repository().save(entity);
     }
 
-    public Entity update(Key key, Entity newEntity) throws NotFoundException {
+    public Entity update(Key key, Entity newEntity) throws NotFoundException, UniqueValueException {
         validateKeys(newEntity);
         return repository().findById(key)
                 .map(entity -> repository().save(updateData(entity, newEntity)))
@@ -40,5 +39,9 @@ public abstract class CrudService<Entity, Key> {
                     return entity;
                 })
                 .orElseThrow(() -> new NotFoundException(getEntityName(), key.toString()));
+    }
+
+    public boolean exists(Key key) {
+        return repository().existsById(key);
     }
 }

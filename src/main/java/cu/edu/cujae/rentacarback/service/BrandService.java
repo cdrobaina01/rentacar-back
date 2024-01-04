@@ -1,5 +1,7 @@
 package cu.edu.cujae.rentacarback.service;
 
+import cu.edu.cujae.rentacarback.exceptions.NotFoundException;
+import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
 import cu.edu.cujae.rentacarback.model.Brand;
 import cu.edu.cujae.rentacarback.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +24,17 @@ public class BrandService extends CrudService<Brand, Integer> {
     }
 
     @Override
-    protected void validateKeys(Brand brand) {
-        if (repository.findByName(brand.getName()).isPresent()) {
-            throw new IllegalArgumentException();
-        }
+    protected void validateKeys(Brand brand) throws UniqueValueException {
+        repository.findByName(brand.getName()).orElseThrow(() -> new UniqueValueException(getEntityName(), "Name"));
     }
 
     @Override
     protected Brand updateData(Brand brand, Brand data) {
         brand.setName(brand.getName());
         return brand;
+    }
+
+    public Brand findByName(String name) {
+        return repository.findByName(name).orElseThrow(() -> new NotFoundException(getEntityName(), name));
     }
 }
