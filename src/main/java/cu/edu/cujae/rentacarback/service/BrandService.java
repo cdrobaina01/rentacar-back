@@ -23,7 +23,9 @@ public class BrandService extends CrudService<Brand, Integer> {
 
     @Override
     protected void validateKeys(Brand brand) {
-
+        if (repository.findByName(brand.getName()).isPresent()) {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override

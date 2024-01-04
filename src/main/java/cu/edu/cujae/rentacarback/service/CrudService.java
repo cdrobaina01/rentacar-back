@@ -1,7 +1,6 @@
 package cu.edu.cujae.rentacarback.service;
 
-import cu.edu.cujae.rentacarback.exceptions.notfound.NotFoundException;
-import lombok.RequiredArgsConstructor;
+import cu.edu.cujae.rentacarback.exceptions.NotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -18,6 +17,7 @@ public abstract class CrudService<Entity, Key> {
     }
 
     public Entity findById(Key key) throws NotFoundException {
+        System.out.println("A");
         return repository().findById(key).orElseThrow(() -> new NotFoundException(getEntityName(), key.toString()));
     }
 

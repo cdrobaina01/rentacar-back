@@ -2,6 +2,7 @@ package cu.edu.cujae.rentacarback.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class Brand {
     private Integer id;
 
     @Column(name = "name",nullable = false, unique = true)
+    @NotBlank
     private String name;
 
     @OneToMany(mappedBy = "brand")
