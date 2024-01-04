@@ -2,13 +2,10 @@ package cu.edu.cujae.rentacarback.service.impl;
 
 import cu.edu.cujae.rentacarback.dto.TouristDTO;
 import cu.edu.cujae.rentacarback.dto.save.TouristSaveDTO;
-import cu.edu.cujae.rentacarback.model.Country;
-import cu.edu.cujae.rentacarback.model.Gender;
 import cu.edu.cujae.rentacarback.model.Tourist;
-import cu.edu.cujae.rentacarback.repository.CountryRepository;
-import cu.edu.cujae.rentacarback.repository.GenderRepository;
 import cu.edu.cujae.rentacarback.repository.TouristRepository;
 import cu.edu.cujae.rentacarback.service.core.TouristService;
+import cu.edu.cujae.rentacarback.utils.TouristGender;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,11 +21,6 @@ public class TouristServiceImpl implements TouristService {
     private TouristRepository touristRepository;
     private final ModelMapper mapper = new ModelMapper();
 
-    @Autowired
-    private GenderRepository genderRepository;
-    @Autowired
-    private CountryRepository countryRepository;
-
     @Override
     public List<TouristDTO> findAll() {
         return touristRepository.findAll().stream()
@@ -43,11 +35,6 @@ public class TouristServiceImpl implements TouristService {
 
     @Override
     public Optional<TouristDTO> create(TouristSaveDTO tourist) throws DataIntegrityViolationException {
-        Optional<Gender> gender = genderRepository.findById(tourist.getGenderId());
-        Optional<Country> country = countryRepository.findById(tourist.getCountryId());
-        if (gender.isEmpty() || country.isEmpty()) {
-            return  Optional.empty();
-        }
         return Optional.of(mapper.map(
                 touristRepository.save(new Tourist(
                         tourist.getPassport(),
@@ -55,8 +42,8 @@ public class TouristServiceImpl implements TouristService {
                         tourist.getAge(),
                         tourist.getPhone(),
                         tourist.getEmail(),
-                        gender.get(),
-                        country.get(),
+                        TouristGender.OTHER,
+                        "USA",
                         null
                 )),
                 TouristDTO.class
@@ -65,18 +52,11 @@ public class TouristServiceImpl implements TouristService {
 
     @Override
     public Optional<TouristDTO> update(String passport, TouristSaveDTO newTourist) throws DataIntegrityViolationException {
-        Optional<Gender> gender = genderRepository.findById(newTourist.getGenderId());
-        Optional<Country> country = countryRepository.findById(newTourist.getCountryId());
-        if (gender.isEmpty() || country.isEmpty()) {
-            return  Optional.empty();
-        }
         return touristRepository.findById(passport).map(tourist -> {
             tourist.setName(newTourist.getName());
             tourist.setAge(newTourist.getAge());
             tourist.setEmail(newTourist.getEmail());
-            tourist.setGender(gender.get());
             tourist.setPhone(newTourist.getPhone());
-            tourist.setCountry(country.get());
             return mapper.map(touristRepository.save(tourist), TouristDTO.class);
         });
     }

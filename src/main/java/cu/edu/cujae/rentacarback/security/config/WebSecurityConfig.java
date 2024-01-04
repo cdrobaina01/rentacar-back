@@ -37,6 +37,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/auth/login").permitAll()
 
                         .requestMatchers("/brand").permitAll()
+                        .requestMatchers("/car").permitAll()
                         .requestMatchers("/brand/**").permitAll()
                         .anyRequest().authenticated()
                 );

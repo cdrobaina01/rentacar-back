@@ -26,15 +26,7 @@ public class DatabaseSeeder {
     @Autowired
     private ModelRepository modelRepository;
     @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private SituationRepository situationRepository;
-    @Autowired
-    private CountryRepository countryRepository;
-    @Autowired
     private FeeRepository feeRepository;
-    @Autowired
-    private GenderRepository genderRepository;
     @Autowired
     private PaymethodRepository paymethodRepository;
     @Autowired
@@ -58,12 +50,8 @@ public class DatabaseSeeder {
 
         brandRepository.saveAll(data.brands());
         modelRepository.saveAll(data.models());
-        categoryRepository.saveAll(data.categories());
-        situationRepository.saveAll(data.situations());
         feeRepository.saveAll(data.fees());
-        genderRepository.saveAll(data.genders());
         paymethodRepository.saveAll(data.paymethods());
-        countryRepository.saveAll(data.countries());
 
         carRepository.saveAll(data.cars());
         driverRepository.saveAll(data.drivers());
@@ -81,12 +69,8 @@ public class DatabaseSeeder {
         touristRepository.deleteAll();
         modelRepository.deleteAll();
         brandRepository.deleteAll();
-        categoryRepository.deleteAll();
-        situationRepository.deleteAll();
         feeRepository.deleteAll();
-        genderRepository.deleteAll();
         paymethodRepository.deleteAll();
-        countryRepository.deleteAll();
         userRepository.deleteAll();
         roleRepository.deleteAll();
     }

@@ -1,5 +1,6 @@
 package cu.edu.cujae.rentacarback.model;
 
+import cu.edu.cujae.rentacarback.utils.DriverCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,8 +27,8 @@ public class Driver {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @ManyToOne
-    private Category category;
+    @Column(name = "category", nullable = false)
+    private DriverCategory category;
 
     @OneToMany(mappedBy = "driver")
     private List<Contract> contracts;

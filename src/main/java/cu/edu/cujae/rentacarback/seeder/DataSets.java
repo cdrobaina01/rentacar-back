@@ -2,6 +2,9 @@ package cu.edu.cujae.rentacarback.seeder;
 
 import com.github.javafaker.Faker;
 import cu.edu.cujae.rentacarback.model.*;
+import cu.edu.cujae.rentacarback.utils.CarSituation;
+import cu.edu.cujae.rentacarback.utils.DriverCategory;
+import cu.edu.cujae.rentacarback.utils.TouristGender;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.sql.SQLException;
@@ -31,26 +34,9 @@ public class DataSets {
             new Model(null, "Atos", brands[1], null),
             new Model(null, "Sportage", brands[0], null),
     };
-    private final Situation[] situations = {
-            new Situation(null, "Rented", null),
-            new Situation(null, "Free", null),
-            new Situation(null, "Reserved", null),
-            new Situation(null, "Workshop", null),
-    };
-    private final Category[] categories = {
-            new Category(null, "B", null),
-            new Category(null, "C", null),
-            new Category(null, "D", null),
-            new Category(null, "E", null),
-    };
     private final Fee[] fees = {
             new Fee(null, "Regular", 15.0),
             new Fee(null, "Overdue", 30.0),
-    };
-    private final Gender[] genders = {
-            new Gender(null, "M", null),
-            new Gender(null, "F", null),
-            new Gender(null, "N", null),
     };
     private final Paymethod[] paymethods = {
             new Paymethod(null, "Cash", null),
@@ -83,13 +69,13 @@ public class DataSets {
 
         for (int i = 0; i < 10; i++) {
             cars.add(new Car(faker.regexify("T\\d{6}"), faker.number().numberBetween(150, 1500), faker.color().hex(),
-                    models[randIndex(models.length)], situations[randIndex(situations.length)], null));
+                    CarSituation.READY, models[randIndex(models.length)], null));
             drivers.add(new Driver(faker.regexify("\\d{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-8])\\d{5}"),
                     faker.name().fullName(), faker.address().fullAddress(),
-                    faker.internet().emailAddress(), categories[randIndex(categories.length)], null));
+                    faker.internet().emailAddress(), DriverCategory.B, null));
             tourists.add(new Tourist(faker.regexify("[A-Z]{2}\\d{5}"), faker.name().fullName(),
                     faker.number().numberBetween(18, 100), faker.phoneNumber().cellPhone(),
-                    faker.internet().emailAddress(), genders[randIndex(genders.length)],
+                    faker.internet().emailAddress(), TouristGender.OTHER,
                     countries.get(randIndex(countries.size())), null));
             contracts.add(contractGenerator());
         }
@@ -144,20 +130,11 @@ public class DataSets {
     public List<Model> models() {
         return Arrays.asList(models);
     }
-    public List<Category> categories() {
-        return Arrays.asList(categories);
-    }
-    public List<Situation> situations() {
-        return Arrays.asList(situations);
-    }
     public List<Fee> fees() {
         return Arrays.asList(fees);
     }
     public List<Country> countries() {
         return countries;
-    }
-    public List<Gender> genders() {
-        return Arrays.asList(genders);
     }
     public List<Paymethod> paymethods() {
         return Arrays.asList(paymethods);
