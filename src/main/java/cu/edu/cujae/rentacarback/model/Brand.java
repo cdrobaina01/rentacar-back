@@ -1,5 +1,6 @@
 package cu.edu.cujae.rentacarback.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +20,6 @@ public class Brand {
     private String name;
 
     @OneToMany(mappedBy = "brand")
+    @JsonIgnore
     private List<Model> models;
 }

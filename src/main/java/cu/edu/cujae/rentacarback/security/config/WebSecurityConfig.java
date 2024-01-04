@@ -35,6 +35,8 @@ public class WebSecurityConfig {
                 .securityMatcher("/**")
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/brand").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
