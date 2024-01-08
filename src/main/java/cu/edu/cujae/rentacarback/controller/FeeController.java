@@ -1,37 +1,40 @@
-package cu.edu.cujae.rentacarback.api.controller;
+package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.DriverDTO;
-import cu.edu.cujae.rentacarback.dto.save.DriverSaveDTO;
-import cu.edu.cujae.rentacarback.service.core.DriverService;
+import cu.edu.cujae.rentacarback.dto.FeeDTO;
+import cu.edu.cujae.rentacarback.dto.save.FeeSaveDTO;
+import cu.edu.cujae.rentacarback.model.Fee;
+import cu.edu.cujae.rentacarback.service.core.FeeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/driver")
-public class DriverController {
+@RequestMapping("/fee")
+public class FeeController {
     @Autowired
-    private DriverService driverService;
+    private FeeService feeService;
 
     @GetMapping
-    public List<DriverDTO> getAll() {
-        return driverService.findAll();
+    public List<FeeDTO> getAll() {
+        return feeService.findAll();
     }
 
-    @GetMapping("/{dni}")
-    public ResponseEntity<DriverDTO> getById(@PathVariable String dni) {
-        return driverService.findById(dni)
+    @GetMapping("/{id}")
+    public ResponseEntity<FeeDTO> getById(@PathVariable Integer id) {
+        return feeService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<DriverDTO> create(@RequestBody DriverSaveDTO driver) {
+    public ResponseEntity<FeeDTO> create(@RequestBody FeeSaveDTO fee) {
         try {
-            return driverService.create(driver)
+            return feeService.create(fee)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.badRequest().build());
         } catch (DataIntegrityViolationException exception) {
@@ -39,10 +42,10 @@ public class DriverController {
         }
     }
 
-    @PutMapping("/{dni}")
-    public ResponseEntity<DriverDTO> update(@PathVariable String dni, @RequestBody DriverSaveDTO driver) {
+    @PutMapping("/{id}")
+    public ResponseEntity<FeeDTO> update(@PathVariable Integer id, @RequestBody FeeSaveDTO fee) {
         try {
-            return driverService.update(dni, driver)
+            return feeService.update(id, fee)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
         } catch (DataIntegrityViolationException exception) {
@@ -50,9 +53,9 @@ public class DriverController {
         }
     }
 
-    @DeleteMapping("/{dni}")
-    public ResponseEntity<DriverDTO> delete(@PathVariable String dni) {
-        return driverService.delete(dni)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<FeeDTO> delete(@PathVariable Integer id) {
+        return feeService.delete(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

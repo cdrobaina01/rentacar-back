@@ -6,6 +6,7 @@ import cu.edu.cujae.rentacarback.model.Model;
 import cu.edu.cujae.rentacarback.model.Paymethod;
 import cu.edu.cujae.rentacarback.model.Tourist;
 import cu.edu.cujae.rentacarback.repository.*;
+import cu.edu.cujae.rentacarback.service.core.EmailService;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -44,6 +45,10 @@ public class DatabaseSeeder {
     private TouristRepository touristRepository;
     @Autowired
     private ContractRepository contractRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostConstruct
     public void seed() {
@@ -64,6 +69,9 @@ public class DatabaseSeeder {
         driverRepository.saveAll(data.drivers());
         touristRepository.saveAll(data.tourists());
         contractRepository.saveAll(data.contracts());
+
+        roleRepository.saveAll(data.roles());
+        userRepository.saveAll(data.users());
     }
 
     public void cleanDatabase() {
@@ -79,5 +87,7 @@ public class DatabaseSeeder {
         genderRepository.deleteAll();
         paymethodRepository.deleteAll();
         countryRepository.deleteAll();
+        userRepository.deleteAll();
+        roleRepository.deleteAll();
     }
 }

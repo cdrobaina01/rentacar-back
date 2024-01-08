@@ -20,6 +20,7 @@ public class DataSets {
     private final List<Tourist> tourists;
     private final List<Contract> contracts;
     private final List<Country> countries;
+    private final List<User> users;
     private final Brand[] brands = {
             new Brand(null, "Kia", null),
             new Brand(null, "Hyundai", null),
@@ -55,6 +56,12 @@ public class DataSets {
             new Paymethod(null, "Cash", null),
             new Paymethod(null, "Credit", null),
     };
+    private final Role[] roles = {
+            new Role("ROLE_ADMIN", "Administrator", null),
+            new Role("ROLE_USER", "Regular Worker", null),
+            new Role("ROLE_CLIENT", "Tourist Client", null),
+            new Role("ROLE_DRIVER", "Driver Worker", null),
+    };
 
     private DataSets() {
         faker = Faker.instance();
@@ -63,6 +70,16 @@ public class DataSets {
         tourists = new LinkedList<>();
         contracts = new LinkedList<>();
         countries = countryGenerator();
+        users = new ArrayList<>();
+        users.add(new User("admin", "cdrobayna01@gmail.com",
+                "$2a$12$Fp0.9ip8awWNBin025evqelhKmMAuMPE4SeluHhV1vD3pN1ACegTe", // admin
+                faker.name().fullName(), roles[0]));
+        users.add(new User("driver", "cdrobayna01@gmail.com",
+                "$2a$12$WSJZqM6neAfR1LFSRASuw.hPE2REBY3QwZYQWxCkP8KzI.PGEUEUO", // driver
+                faker.name().fullName(), roles[3]));
+        users.add(new User("user", "cdrobayna01@gmail.com",
+                "$2a$12$g4yHbyqAooSmX5fthYxg.uV6bVyTTKUvSqbl1S1RLNBtUg2dIKXZm", // user
+                faker.name().fullName(), roles[1]));
 
         for (int i = 0; i < 10; i++) {
             cars.add(new Car(faker.regexify("T\\d{6}"), faker.number().numberBetween(150, 1500), faker.color().hex(),
@@ -144,6 +161,13 @@ public class DataSets {
     }
     public List<Paymethod> paymethods() {
         return Arrays.asList(paymethods);
+    }
+
+    public List<Role> roles(){
+        return Arrays.asList(roles);
+    }
+    public List<User> users() {
+        return users;
     }
 
     public List<Car> cars() {

@@ -1,41 +1,37 @@
-package cu.edu.cujae.rentacarback.api.controller;
+package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.CountryDTO;
-import cu.edu.cujae.rentacarback.dto.save.AuxiliarySaveDTO;
-import cu.edu.cujae.rentacarback.model.Country;
-import cu.edu.cujae.rentacarback.service.core.CountryService;
-import org.modelmapper.ModelMapper;
+import cu.edu.cujae.rentacarback.dto.ModelDTO;
+import cu.edu.cujae.rentacarback.dto.save.ModelSaveDTO;
+import cu.edu.cujae.rentacarback.service.core.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/country")
-public class CountryController {
+@RequestMapping("/model")
+public class ModelController {
     @Autowired
-    private CountryService countryService;
-    private final ModelMapper mapper = new ModelMapper();
+    private ModelService modelService;
 
     @GetMapping
-    public List<CountryDTO> getAll() {
-        return countryService.findAll();
+    public List<ModelDTO> getAll() {
+        return modelService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CountryDTO> getById(@PathVariable Integer id) {
-        return countryService.findById(id)
+    public ResponseEntity<ModelDTO> getById(@PathVariable Integer id) {
+        return modelService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<CountryDTO> create(@RequestBody AuxiliarySaveDTO country) {
+    public ResponseEntity<ModelDTO> create(@RequestBody ModelSaveDTO model) {
         try {
-            return countryService.create(country)
+            return modelService.create(model)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.badRequest().build());
         } catch (DataIntegrityViolationException exception) {
@@ -44,9 +40,9 @@ public class CountryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CountryDTO> update(@PathVariable Integer id, @RequestBody AuxiliarySaveDTO country) {
+    public ResponseEntity<ModelDTO> update(@PathVariable Integer id, @RequestBody ModelSaveDTO model) {
         try {
-            return countryService.update(id, country)
+            return modelService.update(id, model)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
         } catch (DataIntegrityViolationException exception) {
@@ -55,8 +51,8 @@ public class CountryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CountryDTO> delete(@PathVariable Integer id) {
-        return countryService.delete(id)
+    public ResponseEntity<ModelDTO> delete(@PathVariable Integer id) {
+        return modelService.delete(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

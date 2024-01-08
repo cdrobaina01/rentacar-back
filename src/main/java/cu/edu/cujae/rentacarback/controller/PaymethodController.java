@@ -1,8 +1,8 @@
-package cu.edu.cujae.rentacarback.api.controller;
+package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.BrandDTO;
+import cu.edu.cujae.rentacarback.dto.PaymethodDTO;
 import cu.edu.cujae.rentacarback.dto.save.AuxiliarySaveDTO;
-import cu.edu.cujae.rentacarback.service.core.BrandService;
+import cu.edu.cujae.rentacarback.service.core.PaymethodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -11,27 +11,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/brand")
-public class BrandController {
+@RequestMapping("/paymethod")
+public class PaymethodController {
     @Autowired
-    private BrandService brandService;
+    private PaymethodService paymethodService;
 
     @GetMapping
-    public List<BrandDTO> getAll() {
-        return brandService.findAll();
+    public List<PaymethodDTO> getAll() {
+        return paymethodService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BrandDTO> getById(@PathVariable Integer id) {
-        return brandService.findById(id)
+    public ResponseEntity<PaymethodDTO> getById(@PathVariable Integer id) {
+        return paymethodService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<BrandDTO> create(@RequestBody AuxiliarySaveDTO brand) {
+    public ResponseEntity<PaymethodDTO> create(@RequestBody AuxiliarySaveDTO paymethod) {
         try {
-            return brandService.create(brand)
+            return paymethodService.create(paymethod)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.badRequest().build());
         } catch (DataIntegrityViolationException exception) {
@@ -40,9 +40,9 @@ public class BrandController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BrandDTO> update(@PathVariable Integer id, @RequestBody AuxiliarySaveDTO brand) {
+    public ResponseEntity<PaymethodDTO> update(@PathVariable Integer id, @RequestBody AuxiliarySaveDTO paymethod) {
         try {
-            return brandService.update(id, brand)
+            return paymethodService.update(id, paymethod)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
         } catch (DataIntegrityViolationException exception) {
@@ -51,8 +51,8 @@ public class BrandController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<BrandDTO> delete(@PathVariable Integer id) {
-        return brandService.delete(id)
+    public ResponseEntity<PaymethodDTO> delete(@PathVariable Integer id) {
+        return paymethodService.delete(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
