@@ -44,9 +44,6 @@ public abstract class CrudService<Entity, Key> {
                 .orElseThrow(() -> new NotFoundException(getEntityName(), key.toString()));
     }
 
-    public boolean exists(Key key) {
-        return repository().existsById(key);
-    }
     protected void validateAvailableKey(Entity entity) throws UniqueValueException {
         if (repository().findById(getKey(entity)).isPresent()) {
             throw new UniqueValueException(getEntityName(), getKeyName());
