@@ -5,6 +5,7 @@ import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public abstract class CrudService<Entity, Key> {
     protected abstract String getEntityName();
@@ -43,5 +44,8 @@ public abstract class CrudService<Entity, Key> {
 
     public boolean exists(Key key) {
         return repository().existsById(key);
+    }
+    protected Supplier<UniqueValueException> uniqueValueException(String field) {
+        return () -> new UniqueValueException(getEntityName(), field);
     }
 }

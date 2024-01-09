@@ -1,59 +1,43 @@
 package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.DriverDTO;
-import cu.edu.cujae.rentacarback.dto.save.DriverSaveDTO;
-import cu.edu.cujae.rentacarback.service.core.DriverService;
+import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
+import cu.edu.cujae.rentacarback.model.Driver;
+import cu.edu.cujae.rentacarback.service.DriverService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/driver")
+@RequiredArgsConstructor
 public class DriverController {
-    @Autowired
-    private DriverService driverService;
+    private final DriverService driverService;
 
     @GetMapping
-    public List<DriverDTO> getAll() {
+    public List<Driver> getAll() {
         return driverService.findAll();
     }
 
     @GetMapping("/{dni}")
-    public ResponseEntity<DriverDTO> getById(@PathVariable String dni) {
-        return driverService.findById(dni)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Driver getById(@PathVariable String dni) {
+        return driverService.findById(dni);
     }
 
     @PostMapping
-    public ResponseEntity<DriverDTO> create(@RequestBody DriverSaveDTO driver) {
-        try {
-            return driverService.create(driver)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.badRequest().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Driver create(@RequestBody @Valid Driver driver) throws UniqueValueException {
+            return driverService.create(driver);
     }
 
     @PutMapping("/{dni}")
-    public ResponseEntity<DriverDTO> update(@PathVariable String dni, @RequestBody DriverSaveDTO driver) {
-        try {
-            return driverService.update(dni, driver)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Driver update(@PathVariable String dni, @RequestBody @Valid Driver driver) throws UniqueValueException {
+            return driverService.update(dni, driver);
     }
 
     @DeleteMapping("/{dni}")
-    public ResponseEntity<DriverDTO> delete(@PathVariable String dni) {
-        return driverService.delete(dni)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Driver delete(@PathVariable String dni) {
+        return driverService.delete(dni);
     }
 }

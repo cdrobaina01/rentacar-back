@@ -25,7 +25,7 @@ public class ModelService extends CrudService<Model, Integer> {
 
     @Override
     protected void validateKeys(Model model) throws UniqueValueException {
-        repository.findByName(model.getName()).orElseThrow(() -> new UniqueValueException(getEntityName(), "Name"));
+        repository.findByName(model.getName()).orElseThrow(uniqueValueException("Name"));
         brandService.findById(model.getBrand().getId());
     }
 

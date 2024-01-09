@@ -22,7 +22,6 @@ public class DataSets {
     private final List<Driver> drivers;
     private final List<Tourist> tourists;
     private final List<Contract> contracts;
-    private final List<Country> countries;
     private final List<User> users;
     private final Brand[] brands = {
             new Brand(null, "Kia", null),
@@ -55,7 +54,6 @@ public class DataSets {
         drivers = new LinkedList<>();
         tourists = new LinkedList<>();
         contracts = new LinkedList<>();
-        countries = countryGenerator();
         users = new ArrayList<>();
         users.add(new User("admin", "cdrobayna01@gmail.com",
                 "$2a$12$Fp0.9ip8awWNBin025evqelhKmMAuMPE4SeluHhV1vD3pN1ACegTe", // admin
@@ -76,7 +74,7 @@ public class DataSets {
             tourists.add(new Tourist(faker.regexify("[A-Z]{2}\\d{5}"), faker.name().fullName(),
                     faker.number().numberBetween(18, 100), faker.phoneNumber().cellPhone(),
                     faker.internet().emailAddress(), TouristGender.OTHER,
-                    countries.get(randIndex(countries.size())), null));
+                    "USA", null));
             contracts.add(contractGenerator());
         }
     }
@@ -90,21 +88,6 @@ public class DataSets {
 
     private int randIndex(int index) {
         return faker.number().numberBetween(0, index - 1);
-    }
-
-    private List<Country> countryGenerator() {
-        List<String> names = new ArrayList<>();
-        int count = 0;
-        while (count < 20) {
-            String countryName = faker.country().name();
-            if (names.contains(countryName)) {
-                continue;
-            }
-            names.add(countryName);
-            count++;
-        }
-
-        return names.stream().map(s -> new Country(null, s, null)).collect(Collectors.toList());
     }
 
     private Contract contractGenerator() {
@@ -132,9 +115,6 @@ public class DataSets {
     }
     public List<Fee> fees() {
         return Arrays.asList(fees);
-    }
-    public List<Country> countries() {
-        return countries;
     }
     public List<Paymethod> paymethods() {
         return Arrays.asList(paymethods);

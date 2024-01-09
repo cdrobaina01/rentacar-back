@@ -1,12 +1,11 @@
 package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.ContractDTO;
-import cu.edu.cujae.rentacarback.dto.save.ContractSaveDTO;
+import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
+import cu.edu.cujae.rentacarback.model.Contract;
 import cu.edu.cujae.rentacarback.model.ContractPK;
-import cu.edu.cujae.rentacarback.service.core.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
+import cu.edu.cujae.rentacarback.service.ContractService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -14,48 +13,32 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/contract")
+@RequiredArgsConstructor
 public class ContractController {
-    @Autowired
-    private ContractService contractService;
+    private final ContractService contractService;
 
     @GetMapping
-    public List<ContractDTO> getAll() {
+    public List<Contract> getAll() {
         return contractService.findAll();
     }
 
     @GetMapping("/{plate}/{date}")
-    public ResponseEntity<ContractDTO> getById(@PathVariable String plate, @PathVariable LocalDate date) {
-        return contractService.findById(new ContractPK(plate, date))
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Contract getById(@PathVariable String plate, @PathVariable LocalDate date) {
+        return contractService.findById(new ContractPK(plate, date));
     }
 
     @PostMapping
-    public ResponseEntity<ContractDTO> create(@RequestBody ContractSaveDTO contract) {
-        try {
-            return contractService.create(contract)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.badRequest().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Contract create(@RequestBody @Valid Contract contract) throws UniqueValueException {
+            return contractService.create(contract);
     }
 
     @PutMapping("/{plate}/{date}")
-    public ResponseEntity<ContractDTO> update(@PathVariable String plate, @PathVariable LocalDate date, @RequestBody ContractSaveDTO contract) {
-        try {
-            return contractService.update(new ContractPK(plate, date), contract)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Contract update(@PathVariable String plate, @PathVariable LocalDate date, @RequestBody @Valid Contract contract) throws UniqueValueException {
+            return contractService.update(new ContractPK(plate, date), contract);
     }
 
     @DeleteMapping("/{plate}/{date}")
-    public ResponseEntity<ContractDTO> delete(@PathVariable String plate, @PathVariable LocalDate date) {
-        return contractService.delete(new ContractPK(plate, date))
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Contract delete(@PathVariable String plate, @PathVariable LocalDate date) {
+        return contractService.delete(new ContractPK(plate, date));
     }
 }

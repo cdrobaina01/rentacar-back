@@ -1,59 +1,42 @@
 package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.TouristDTO;
-import cu.edu.cujae.rentacarback.dto.save.TouristSaveDTO;
-import cu.edu.cujae.rentacarback.service.core.TouristService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
+import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
+import cu.edu.cujae.rentacarback.model.Tourist;
+import cu.edu.cujae.rentacarback.service.TouristService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/tourist")
+@RequiredArgsConstructor
 public class TouristController {
-    @Autowired
-    private TouristService touristService;
+    private final TouristService touristService;
 
     @GetMapping
-    public List<TouristDTO> getAll() {
+    public List<Tourist> getAll() {
         return touristService.findAll();
     }
 
     @GetMapping("/{passport}")
-    public ResponseEntity<TouristDTO> getById(@PathVariable String passport) {
-        return touristService.findById(passport)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Tourist getById(@PathVariable String passport) {
+        return touristService.findById(passport);
     }
 
     @PostMapping
-    public ResponseEntity<TouristDTO> create(@RequestBody TouristSaveDTO tourist) {
-        try {
-            return touristService.create(tourist)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.badRequest().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Tourist create(@RequestBody @Valid Tourist tourist) throws UniqueValueException {
+            return touristService.create(tourist);
     }
 
     @PutMapping("/{passport}")
-    public ResponseEntity<TouristDTO> update(@PathVariable String passport, @RequestBody TouristSaveDTO tourist) {
-        try {
-            return touristService.update(passport, tourist)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Tourist update(@PathVariable String passport, @RequestBody @Valid Tourist tourist) throws UniqueValueException {
+        return touristService.update(passport, tourist);
     }
 
     @DeleteMapping("/{passport}")
-    public ResponseEntity<TouristDTO> delete(@PathVariable String passport) {
-        return touristService.delete(passport)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Tourist delete(@PathVariable String passport) {
+        return touristService.delete(passport);
     }
 }

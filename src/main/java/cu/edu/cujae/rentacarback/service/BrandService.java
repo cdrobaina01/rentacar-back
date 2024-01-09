@@ -25,16 +25,12 @@ public class BrandService extends CrudService<Brand, Integer> {
 
     @Override
     protected void validateKeys(Brand brand) throws UniqueValueException {
-        repository.findByName(brand.getName()).orElseThrow(() -> new UniqueValueException(getEntityName(), "Name"));
+        repository.findByName(brand.getName()).orElseThrow(uniqueValueException("Name"));
     }
 
     @Override
     protected Brand updateData(Brand brand, Brand data) {
         brand.setName(brand.getName());
         return brand;
-    }
-
-    public Brand findByName(String name) {
-        return repository.findByName(name).orElseThrow(() -> new NotFoundException(getEntityName(), name));
     }
 }
