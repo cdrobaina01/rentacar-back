@@ -1,6 +1,7 @@
 package cu.edu.cujae.rentacarback.service;
 
 import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
+import cu.edu.cujae.rentacarback.model.Brand;
 import cu.edu.cujae.rentacarback.model.Model;
 import cu.edu.cujae.rentacarback.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,12 @@ public class ModelService extends CrudService<Model, Integer> {
         model.setName(data.getName());
         model.setBrand(data.getBrand());
         return model;
+    }
+
+    @Override
+    protected void validateAvailableKey(Model model) throws UniqueValueException {
+        if (repository.findByName(model.getName()).isPresent()) {
+            throw new UniqueValueException(getEntityName(), getKeyName());
+        }
     }
 }

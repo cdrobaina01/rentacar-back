@@ -1,6 +1,7 @@
 package cu.edu.cujae.rentacarback.service;
 
 import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
+import cu.edu.cujae.rentacarback.model.Brand;
 import cu.edu.cujae.rentacarback.model.Fee;
 import cu.edu.cujae.rentacarback.repository.FeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,13 @@ public class FeeService extends CrudService<Fee, Integer> {
         fee.setName(fee.getName());
         fee.setValue(fee.getValue());
         return fee;
+    }
+
+    @Override
+    protected void validateAvailableKey(Fee fee) throws UniqueValueException {
+        if (repository.findByName(fee.getName()).isPresent()) {
+            throw new UniqueValueException(getEntityName(), getKeyName());
+        }
     }
 
     public Fee getRegularFee() {

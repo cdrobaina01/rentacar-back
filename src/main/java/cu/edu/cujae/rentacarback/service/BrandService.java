@@ -41,4 +41,11 @@ public class BrandService extends CrudService<Brand, Integer> {
         brand.setName(brand.getName());
         return brand;
     }
+
+    @Override
+    protected void validateAvailableKey(Brand brand) throws UniqueValueException {
+        if (repository.findByName(brand.getName()).isPresent()) {
+            throw new UniqueValueException(getEntityName(), getKeyName());
+        }
+    }
 }
