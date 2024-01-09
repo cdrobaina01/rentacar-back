@@ -1,5 +1,6 @@
 package cu.edu.cujae.rentacarback.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cu.edu.cujae.rentacarback.utils.DriverCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,6 @@ public class Driver {
     private DriverCategory category;
 
     @OneToMany(mappedBy = "driver")
+    @JsonIgnore
     private List<Contract> contracts;
 }

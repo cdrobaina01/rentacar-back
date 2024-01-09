@@ -5,7 +5,6 @@ import cu.edu.cujae.rentacarback.model.Driver;
 import cu.edu.cujae.rentacarback.service.DriverService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

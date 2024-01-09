@@ -1,20 +1,16 @@
-package cu.edu.cujae.rentacarback.service.impl;
+package cu.edu.cujae.rentacarback.service;
 
 import cu.edu.cujae.rentacarback.model.Contract;
-import cu.edu.cujae.rentacarback.model.Driver;
-import cu.edu.cujae.rentacarback.service.core.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
-public class EmailServiceImpl implements EmailService {
-    @Autowired
-    private JavaMailSender mailSender;
-    @Override
+@RequiredArgsConstructor
+public class EmailService {
+    private final JavaMailSender mailSender;
+
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -24,7 +20,6 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
-    @Override
     public void notifyContract(Contract contract) {
         SimpleMailMessage driverNotification = new SimpleMailMessage();
         SimpleMailMessage touristNotification = new SimpleMailMessage();

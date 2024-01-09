@@ -1,5 +1,6 @@
 package cu.edu.cujae.rentacarback.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cu.edu.cujae.rentacarback.utils.TouristGender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -39,5 +40,6 @@ public class Tourist {
     private String country;
 
     @OneToMany(mappedBy = "tourist")
+    @JsonIgnore
     private List<Contract> contracts;
 }

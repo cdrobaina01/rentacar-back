@@ -1,6 +1,5 @@
 package cu.edu.cujae.rentacarback.service;
 
-import cu.edu.cujae.rentacarback.exceptions.NotFoundException;
 import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
 import cu.edu.cujae.rentacarback.model.Brand;
 import cu.edu.cujae.rentacarback.repository.BrandRepository;

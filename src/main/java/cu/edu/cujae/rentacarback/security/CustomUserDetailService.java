@@ -1,6 +1,6 @@
 package cu.edu.cujae.rentacarback.security;
 
-import cu.edu.cujae.rentacarback.service.core.UserService;
+import cu.edu.cujae.rentacarback.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;

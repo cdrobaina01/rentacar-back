@@ -1,21 +1,10 @@
 package cu.edu.cujae.rentacarback.seeder;
 
-import com.github.javafaker.Faker;
-import cu.edu.cujae.rentacarback.model.Brand;
-import cu.edu.cujae.rentacarback.model.Model;
-import cu.edu.cujae.rentacarback.model.Paymethod;
-import cu.edu.cujae.rentacarback.model.Tourist;
 import cu.edu.cujae.rentacarback.repository.*;
-import cu.edu.cujae.rentacarback.service.core.EmailService;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 
 @Component

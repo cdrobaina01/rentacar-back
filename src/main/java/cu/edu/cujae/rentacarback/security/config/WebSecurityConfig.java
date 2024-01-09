@@ -35,10 +35,6 @@ public class WebSecurityConfig {
                 .securityMatcher("/**")
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/auth/login").permitAll()
-
-                        .requestMatchers("/brand").permitAll()
-                        .requestMatchers("/car").permitAll()
-                        .requestMatchers("/brand/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

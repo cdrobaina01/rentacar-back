@@ -20,6 +20,8 @@ public class ContractService extends CrudService<Contract, ContractPK> {
     private final CarService carService;
     private final FeeService feeService;
 
+    private final EmailService emailService;
+
     @Override
     protected String getEntityName() {
         return "Contract";
@@ -65,6 +67,9 @@ public class ContractService extends CrudService<Contract, ContractPK> {
         contract.setPaymethod(data.getPaymethod());
         contract.setDriver(data.getDriver());
         calculateValue(contract);
+
+        emailService.notifyContract(contract);
+
         return repository.save(contract);
     }
 

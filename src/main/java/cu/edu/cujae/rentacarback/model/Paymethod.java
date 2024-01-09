@@ -1,5 +1,6 @@
 package cu.edu.cujae.rentacarback.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,5 +22,6 @@ public class Paymethod {
     private String name;
 
     @OneToMany(mappedBy = "paymethod")
+    @JsonIgnore
     private List<Contract> contracts;
 }

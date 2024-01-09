@@ -6,6 +6,7 @@ import cu.edu.cujae.rentacarback.model.ContractPK;
 import cu.edu.cujae.rentacarback.service.ContractService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -28,8 +29,19 @@ public class ContractController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('SUPERUSER')")
     public Contract create(@RequestBody @Valid Contract contract) throws UniqueValueException {
             return contractService.create(contract);
+    }
+
+    @PostMapping("/open")
+    public Contract open(@RequestBody @Valid Contract contract) throws UniqueValueException {
+        return contractService.open(contract);
+    }
+
+    @PutMapping("/close/{plate}/{date}")
+    public Contract close(@PathVariable String plate, @PathVariable LocalDate date, @RequestBody @Valid Contract contract) throws UniqueValueException {
+        return contractService.close(new ContractPK(plate, date), contract);
     }
 
     @PutMapping("/{plate}/{date}")

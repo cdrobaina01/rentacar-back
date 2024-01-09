@@ -2,7 +2,7 @@ package cu.edu.cujae.rentacarback.controller;
 
 import cu.edu.cujae.rentacarback.security.dto.LoginRequestDTO;
 import cu.edu.cujae.rentacarback.security.dto.LoginResponseDTO;
-import cu.edu.cujae.rentacarback.service.core.AuthService;
+import cu.edu.cujae.rentacarback.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

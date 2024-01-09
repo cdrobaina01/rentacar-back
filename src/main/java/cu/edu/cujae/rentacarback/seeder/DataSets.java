@@ -46,6 +46,7 @@ public class DataSets {
             new Role("ROLE_USER", "Regular Worker", null),
             new Role("ROLE_CLIENT", "Tourist Client", null),
             new Role("ROLE_DRIVER", "Driver Worker", null),
+            new Role("ROLE_SUPERUSER", "High Permissions Worker, e.g. Supervisor", null),
     };
 
     private DataSets() {
@@ -64,6 +65,12 @@ public class DataSets {
         users.add(new User("user", "cdrobayna01@gmail.com",
                 "$2a$12$g4yHbyqAooSmX5fthYxg.uV6bVyTTKUvSqbl1S1RLNBtUg2dIKXZm", // user
                 faker.name().fullName(), roles[1]));
+        users.add(new User("superuser", "cdrobayna01@gmail.com",
+                "$2a$12$P2xt7r2pSSvWP7oKr4s2e..Rdy86/oqo8XewNvQ0VL7ZU40Gg6asW", // superuser
+                faker.name().fullName(), roles[4]));
+        users.add(new User("client", "cdrobayna01@gmail.com",
+                "$2a$12$vvU8NdN6Gsq0Fnb8nXj7ZOjX6kga42LSts9HOF2nqwDYz08jSwBl.", // client
+                faker.name().fullName(), roles[2]));
 
         for (int i = 0; i < 10; i++) {
             cars.add(new Car(faker.regexify("T\\d{6}"), faker.number().numberBetween(150, 1500), faker.color().hex(),
