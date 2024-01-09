@@ -1,61 +1,42 @@
 package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.CarDTO;
-import cu.edu.cujae.rentacarback.dto.ModelDTO;
-import cu.edu.cujae.rentacarback.dto.save.CarSaveDTO;
-import cu.edu.cujae.rentacarback.service.core.CarService;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
+import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
+import cu.edu.cujae.rentacarback.model.Car;
+import cu.edu.cujae.rentacarback.service.CarService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/car")
+@RequiredArgsConstructor
 public class CarController {
-    @Autowired
-    private CarService carService;
+    private final CarService carService;
 
     @GetMapping
-    public List<CarDTO> getAll() {
+    public List<Car> getAll() {
         return carService.findAll();
     }
 
     @GetMapping("/{plate}")
-    public ResponseEntity<CarDTO> getById(@PathVariable String plate) {
-        return carService.findById(plate)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Car getById(@PathVariable String plate) {
+        return carService.findById(plate);
     }
 
     @PostMapping
-    public ResponseEntity<CarDTO> create(@RequestBody CarSaveDTO car) {
-        try {
-            return carService.create(car)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.badRequest().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Car create(@RequestBody @Valid Car car) throws UniqueValueException {
+            return carService.create(car);
     }
 
     @PutMapping("/{plate}")
-    public ResponseEntity<CarDTO> update(@PathVariable String plate, @RequestBody CarSaveDTO car) {
-        try {
-            return carService.update(plate, car)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Car update(@PathVariable String plate, @RequestBody @Valid Car car) throws UniqueValueException {
+            return carService.update(plate, car);
     }
 
     @DeleteMapping("/{plate}")
-    public ResponseEntity<CarDTO> delete(@PathVariable String plate) {
-        return carService.delete(plate)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());}
+    public Car delete(@PathVariable String plate) {
+        return carService.delete(plate);
+    }
 }

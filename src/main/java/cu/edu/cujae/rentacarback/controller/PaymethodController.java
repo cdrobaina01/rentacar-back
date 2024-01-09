@@ -1,59 +1,42 @@
 package cu.edu.cujae.rentacarback.controller;
 
-import cu.edu.cujae.rentacarback.dto.PaymethodDTO;
-import cu.edu.cujae.rentacarback.dto.save.AuxiliarySaveDTO;
-import cu.edu.cujae.rentacarback.service.core.PaymethodService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
+import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
+import cu.edu.cujae.rentacarback.model.Paymethod;
+import cu.edu.cujae.rentacarback.service.PaymethodService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/paymethod")
+@RequiredArgsConstructor
 public class PaymethodController {
-    @Autowired
-    private PaymethodService paymethodService;
+    private final PaymethodService paymethodService;
 
     @GetMapping
-    public List<PaymethodDTO> getAll() {
+    public List<Paymethod> getAll() {
         return paymethodService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymethodDTO> getById(@PathVariable Integer id) {
-        return paymethodService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Paymethod getById(@PathVariable Integer id) {
+        return paymethodService.findById(id);
     }
 
     @PostMapping
-    public ResponseEntity<PaymethodDTO> create(@RequestBody AuxiliarySaveDTO paymethod) {
-        try {
-            return paymethodService.create(paymethod)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.badRequest().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Paymethod create(@RequestBody @Valid Paymethod paymethod) throws UniqueValueException {
+        return paymethodService.create(paymethod);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymethodDTO> update(@PathVariable Integer id, @RequestBody AuxiliarySaveDTO paymethod) {
-        try {
-            return paymethodService.update(id, paymethod)
-                    .map(ResponseEntity::ok)
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (DataIntegrityViolationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public Paymethod update(@PathVariable Integer id, @RequestBody @Valid Paymethod paymethod) throws UniqueValueException {
+        return paymethodService.update(id, paymethod);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PaymethodDTO> delete(@PathVariable Integer id) {
-        return paymethodService.delete(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public Paymethod delete(@PathVariable Integer id) {
+        return paymethodService.delete(id);
     }
 }

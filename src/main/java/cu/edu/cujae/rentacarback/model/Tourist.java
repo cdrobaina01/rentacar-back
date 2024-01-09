@@ -1,6 +1,8 @@
 package cu.edu.cujae.rentacarback.model;
 
+import cu.edu.cujae.rentacarback.utils.TouristGender;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,11 +31,12 @@ public class Tourist {
     @Column(name = "email")
     private String email;
 
-    @ManyToOne
-    private Gender gender;
+    @Column(name = "gender", nullable = false)
+    private TouristGender gender;
 
-    @ManyToOne
-    private Country country;
+    @Column(name = "country", nullable = false)
+    @Size(min = 3, max = 4)
+    private String country;
 
     @OneToMany(mappedBy = "tourist")
     private List<Contract> contracts;

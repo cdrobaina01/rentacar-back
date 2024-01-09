@@ -2,11 +2,10 @@ package cu.edu.cujae.rentacarback.service.impl;
 
 import cu.edu.cujae.rentacarback.dto.DriverDTO;
 import cu.edu.cujae.rentacarback.dto.save.DriverSaveDTO;
-import cu.edu.cujae.rentacarback.model.Category;
 import cu.edu.cujae.rentacarback.model.Driver;
-import cu.edu.cujae.rentacarback.repository.CategoryRepository;
 import cu.edu.cujae.rentacarback.repository.DriverRepository;
 import cu.edu.cujae.rentacarback.service.core.DriverService;
+import cu.edu.cujae.rentacarback.utils.DriverCategory;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,9 +21,6 @@ public class DriverServiceImpl implements DriverService {
     private DriverRepository driverRepository;
     private final ModelMapper mapper = new ModelMapper();
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-
     @Override
     public List<DriverDTO> findAll() {
         return driverRepository.findAll().stream()
@@ -39,17 +35,13 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Optional<DriverDTO> create(DriverSaveDTO driver) throws DataIntegrityViolationException {
-        Optional<Category> category = categoryRepository.findById(driver.getCategoryId());
-        if (category.isEmpty()) {
-            return Optional.empty();
-        }
         return Optional.of(mapper.map(
                 driverRepository.save(new Driver(
                         driver.getDni(),
                         driver.getName(),
                         driver.getAddress(),
                         driver.getEmail(),
-                        category.get(),
+                        DriverCategory.B,
                         null
                 )),
                 DriverDTO.class
@@ -58,15 +50,10 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Optional<DriverDTO> update(String dni, DriverSaveDTO newDriver) throws DataIntegrityViolationException {
-        Optional<Category> category = categoryRepository.findById(newDriver.getCategoryId());
-        if (category.isEmpty()) {
-            return Optional.empty();
-        }
         return driverRepository.findById(dni).map(driver -> {
             driver.setName(newDriver.getName());
             driver.setEmail(newDriver.getEmail());
             driver.setAddress(newDriver.getAddress());
-            driver.setCategory(category.get());
             return mapper.map(driverRepository.save(driver), DriverDTO.class);
         });
     }

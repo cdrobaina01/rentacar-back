@@ -1,5 +1,6 @@
 package cu.edu.cujae.rentacarback.model;
 
+import cu.edu.cujae.rentacarback.utils.CarSituation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,11 +24,11 @@ public class Car {
     @Column(name = "color")
     private String color;
 
-    @ManyToOne
-    private Model model;
+    @Column(name = "situation", nullable = false)
+    private CarSituation carSituation;
 
     @ManyToOne
-    private Situation situation;
+    private Model model;
 
     @OneToMany(mappedBy = "car")
     private List<Contract> contracts;
