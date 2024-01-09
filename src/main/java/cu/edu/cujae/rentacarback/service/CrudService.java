@@ -23,15 +23,14 @@ public abstract class CrudService<Entity, Key> {
     }
 
     public Entity create(Entity entity) throws UniqueValueException {
-        validateAvailableKey(entity);
-        validateExistingForeignKeys(entity);
+        // validateAvailableKey(entity);
+        // validateExistingForeignKeys(entity);
         return repository().save(entity);
     }
 
     public Entity update(Key key, Entity newEntity) throws NotFoundException, UniqueValueException {
-        validateExistingForeignKeys(newEntity);
         return repository().findById(key)
-                .map(entity -> repository().save(newEntity))
+                .map(entity -> repository().save(updateData(entity, newEntity)))
                 .orElseThrow(() -> new NotFoundException(getEntityName(), key.toString()));
     }
 

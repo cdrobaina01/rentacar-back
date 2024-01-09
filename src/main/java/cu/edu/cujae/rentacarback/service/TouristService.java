@@ -45,7 +45,6 @@ public class TouristService extends CrudService<Tourist, String> {
         tourist.setCountry(data.getCountry());
         tourist.setPhone(data.getPhone());
         tourist.setGender(data.getGender());
-        tourist.setPassport(tourist.getPassport());
         return tourist;
     }
 }

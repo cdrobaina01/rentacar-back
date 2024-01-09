@@ -39,7 +39,6 @@ public class DriverService extends CrudService<Driver, String> {
 
     @Override
     protected Driver updateData(Driver driver, Driver data) {
-        driver.setDni(driver.getDni());
         driver.setName(data.getName());
         driver.setAddress(data.getAddress());
         driver.setEmail(data.getEmail());

@@ -42,7 +42,6 @@ public class UserService extends CrudService<User, String> {
 
     @Override
     protected User updateData(User user, User data) {
-        user.setUsername(data.getUsername());
         user.setRole(data.getRole());
         user.setName(data.getName());
         user.setPassword(data.getPassword());

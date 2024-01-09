@@ -52,8 +52,6 @@ public class ContractService extends CrudService<Contract, ContractPK> {
 
     @Override
     protected Contract updateData(Contract contract, Contract data) {
-        contract.setCar(data.getCar());
-        contract.setStartDate(data.getStartDate());
         contract.setTourist(data.getTourist());
         contract.setEndDate(data.getEndDate());
         contract.setStartKm(data.getStartKm());

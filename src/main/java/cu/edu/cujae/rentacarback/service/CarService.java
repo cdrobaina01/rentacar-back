@@ -40,7 +40,6 @@ public class CarService extends CrudService<Car, String> {
 
     @Override
     protected Car updateData(Car car, Car data) {
-        car.setPlate(data.getPlate());
         car.setKm(data.getKm());
         car.setCarSituation(data.getCarSituation());
         car.setModel(data.getModel());

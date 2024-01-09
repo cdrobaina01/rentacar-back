@@ -38,7 +38,6 @@ public class RoleService extends CrudService<Role, String> {
 
     @Override
     protected Role updateData(Role role, Role data) {
-        role.setName(data.getName());
         role.setDescription(data.getDescription());
         return role;
     }
