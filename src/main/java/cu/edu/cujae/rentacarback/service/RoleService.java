@@ -18,13 +18,22 @@ public class RoleService extends CrudService<Role, String> {
     }
 
     @Override
+    protected String getKeyName() {
+        return "Name";
+    }
+
+    @Override
     protected JpaRepository<Role, String> repository() {
         return repository;
     }
 
     @Override
-    protected void validateKeys(Role role) throws UniqueValueException {
-        repository.findById(role.getName()).orElseThrow(uniqueValueException("Name"));
+    protected String getKey(Role role) {
+        return role.getName();
+    }
+
+    @Override
+    protected void validateExistingForeignKeys(Role role) throws UniqueValueException {
     }
 
     @Override

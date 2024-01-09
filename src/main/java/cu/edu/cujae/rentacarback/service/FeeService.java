@@ -18,13 +18,22 @@ public class FeeService extends CrudService<Fee, Integer> {
     }
 
     @Override
+    protected String getKeyName() {
+        return "Name";
+    }
+
+    @Override
     protected JpaRepository<Fee, Integer> repository() {
         return repository;
     }
 
     @Override
-    protected void validateKeys(Fee fee) throws UniqueValueException {
-        repository.findByName(fee.getName()).orElseThrow(uniqueValueException("Name"));
+    protected Integer getKey(Fee fee) {
+        return fee.getId();
+    }
+
+    @Override
+    protected void validateExistingForeignKeys(Fee fee) throws UniqueValueException {
     }
 
     @Override

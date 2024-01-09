@@ -1,6 +1,7 @@
 package cu.edu.cujae.rentacarback.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,17 +18,21 @@ public class Contract {
     @Id
     @ManyToOne
     @JoinColumn(name = "plate", referencedColumnName = "plate")
+    @NotNull
     private Car car;
 
     @Id
     @Column(name = "startdate")
+    @NotNull
     private LocalDate startDate;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "passport", referencedColumnName = "passport")
+    @NotNull
     private Tourist tourist;
 
     @Column(name = "enddate", nullable = false)
+    @NotNull
     private LocalDate endDate;
 
     @Column(name = "startkm", nullable = false)
@@ -40,6 +45,7 @@ public class Contract {
     private Integer endKm;
 
     @ManyToOne
+    @NotNull
     private Paymethod paymethod;
 
     @ManyToOne

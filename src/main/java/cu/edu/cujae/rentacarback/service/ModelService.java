@@ -19,13 +19,22 @@ public class ModelService extends CrudService<Model, Integer> {
     }
 
     @Override
+    protected String getKeyName() {
+        return "Name";
+    }
+
+    @Override
     protected JpaRepository<Model, Integer> repository() {
         return repository;
     }
 
     @Override
-    protected void validateKeys(Model model) throws UniqueValueException {
-        repository.findByName(model.getName()).orElseThrow(uniqueValueException("Name"));
+    protected Integer getKey(Model model) {
+        return model.getId();
+    }
+
+    @Override
+    protected void validateExistingForeignKeys(Model model) throws UniqueValueException {
         brandService.findById(model.getBrand().getId());
     }
 

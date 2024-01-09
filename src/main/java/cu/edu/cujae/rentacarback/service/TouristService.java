@@ -18,13 +18,23 @@ public class TouristService extends CrudService<Tourist, String> {
     }
 
     @Override
+    protected String getKeyName() {
+        return "Passport";
+    }
+
+    @Override
     protected JpaRepository<Tourist, String> repository() {
         return repository;
     }
 
     @Override
-    protected void validateKeys(Tourist tourist) throws UniqueValueException {
-        repository.findById(tourist.getPassport()).orElseThrow(uniqueValueException("Passport"));
+    protected String getKey(Tourist tourist) {
+        return tourist.getPassport();
+    }
+
+    @Override
+    protected void validateExistingForeignKeys(Tourist tourist) throws UniqueValueException {
+
     }
 
     @Override

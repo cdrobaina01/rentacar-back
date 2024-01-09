@@ -21,13 +21,22 @@ public class UserService extends CrudService<User, String> {
     }
 
     @Override
+    protected String getKeyName() {
+        return "Username";
+    }
+
+    @Override
     protected JpaRepository<User, String> repository() {
         return repository;
     }
 
     @Override
-    protected void validateKeys(User user) throws UniqueValueException {
-        repository.findById(user.getUsername()).orElseThrow(uniqueValueException("Username"));
+    protected String getKey(User user) {
+        return user.getUsername();
+    }
+
+    @Override
+    protected void validateExistingForeignKeys(User user) throws UniqueValueException {
         roleService.findById(user.getRole().getName());
     }
 

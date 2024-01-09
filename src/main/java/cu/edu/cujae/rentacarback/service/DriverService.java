@@ -18,13 +18,23 @@ public class DriverService extends CrudService<Driver, String> {
     }
 
     @Override
+    protected String getKeyName() {
+        return "DNI";
+    }
+
+    @Override
     protected JpaRepository<Driver, String> repository() {
         return repository;
     }
 
     @Override
-    protected void validateKeys(Driver driver) throws UniqueValueException {
-        repository.findById(driver.getDni()).orElseThrow(uniqueValueException("DNI"));
+    protected String getKey(Driver driver) {
+        return driver.getDni();
+    }
+
+    @Override
+    protected void validateExistingForeignKeys(Driver driver) throws UniqueValueException {
+
     }
 
     @Override

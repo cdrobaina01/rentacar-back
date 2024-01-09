@@ -5,12 +5,13 @@ import cu.edu.cujae.rentacarback.exceptions.UniqueValueException;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public abstract class CrudService<Entity, Key> {
     protected abstract String getEntityName();
+    protected abstract String getKeyName();
     protected abstract JpaRepository<Entity, Key> repository();
-    protected abstract void validateKeys(Entity entity) throws UniqueValueException;
+    protected abstract Key getKey(Entity entity);
+    protected abstract void validateExistingForeignKeys(Entity entity) throws UniqueValueException;
     protected abstract Entity updateData(Entity entity, Entity data);
 
     public List<Entity> findAll() {
@@ -22,12 +23,13 @@ public abstract class CrudService<Entity, Key> {
     }
 
     public Entity create(Entity entity) throws UniqueValueException {
-        validateKeys(entity);
+        validateAvailableKey(entity);
+        validateExistingForeignKeys(entity);
         return repository().save(entity);
     }
 
     public Entity update(Key key, Entity newEntity) throws NotFoundException, UniqueValueException {
-        validateKeys(newEntity);
+        validateExistingForeignKeys(newEntity);
         return repository().findById(key)
                 .map(entity -> repository().save(updateData(entity, newEntity)))
                 .orElseThrow(() -> new NotFoundException(getEntityName(), key.toString()));
@@ -45,7 +47,9 @@ public abstract class CrudService<Entity, Key> {
     public boolean exists(Key key) {
         return repository().existsById(key);
     }
-    protected Supplier<UniqueValueException> uniqueValueException(String field) {
-        return () -> new UniqueValueException(getEntityName(), field);
+    protected void validateAvailableKey(Entity entity) throws UniqueValueException {
+        if (repository().findById(getKey(entity)).isPresent()) {
+            throw new UniqueValueException(getEntityName(), getKeyName());
+        }
     }
 }

@@ -19,13 +19,22 @@ public class CarService extends CrudService<Car, String> {
     }
 
     @Override
+    protected String getKeyName() {
+        return "Plate";
+    }
+
+    @Override
     protected JpaRepository<Car, String> repository() {
         return repository;
     }
 
     @Override
-    protected void validateKeys(Car car) throws UniqueValueException {
-        repository.findById(car.getPlate()).orElseThrow(uniqueValueException("Plate"));
+    protected String getKey(Car car) {
+        return car.getPlate();
+    }
+
+    @Override
+    protected void validateExistingForeignKeys(Car car) throws UniqueValueException {
         modelService.findById(car.getModel().getId());
     }
 

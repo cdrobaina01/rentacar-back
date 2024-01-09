@@ -29,8 +29,8 @@ public class EmailService {
         driverNotification.setText(
                 "You has been assigned to a new Contract, starting on " + contract.getStartDate().toString() + ", "
                         + "until " + contract.getEndDate().toString() + ".\n"
-                        + "The selected car is the " + contract.getCar().getModel().getBrand() + " "
-                        + contract.getCar().getModel() + " with plate " + contract.getCar().getPlate() + "."
+                        + "The selected car is the " + contract.getCar().getModel().getBrand().getName() + " "
+                        + contract.getCar().getModel().getName() + " with plate " + contract.getCar().getPlate() + "."
         );
 
         touristNotification.setTo(contract.getTourist().getEmail());
