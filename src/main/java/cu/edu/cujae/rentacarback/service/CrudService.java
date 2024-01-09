@@ -31,7 +31,7 @@ public abstract class CrudService<Entity, Key> {
     public Entity update(Key key, Entity newEntity) throws NotFoundException, UniqueValueException {
         validateExistingForeignKeys(newEntity);
         return repository().findById(key)
-                .map(entity -> repository().save(updateData(entity, newEntity)))
+                .map(entity -> repository().save(newEntity))
                 .orElseThrow(() -> new NotFoundException(getEntityName(), key.toString()));
     }
 
