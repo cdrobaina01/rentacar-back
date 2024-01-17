@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final JwtIssuer issuer;
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
     public LoginResponseDTO loginAttempt(LoginRequestDTO request) {
         var authentication = authenticationManager.authenticate(
@@ -27,6 +28,6 @@ public class AuthService {
                 .map(GrantedAuthority::getAuthority)
                 .toList();
         var token = issuer.issue(principal.getUsername(), principal.getEmail(), roles);
-        return LoginResponseDTO.builder().token(token).build();
+        return new LoginResponseDTO(userService.findById(principal.getUsername()), token);
     }
 }
