@@ -5,6 +5,7 @@ import cu.edu.cujae.rentacarback.model.Tourist;
 import cu.edu.cujae.rentacarback.service.TouristService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class TouristController {
     }
 
     @DeleteMapping("/{passport}")
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Tourist delete(@PathVariable String passport) {
         return touristService.delete(passport);
     }

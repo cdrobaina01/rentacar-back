@@ -5,6 +5,7 @@ import cu.edu.cujae.rentacarback.model.Model;
 import cu.edu.cujae.rentacarback.service.ModelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,16 +27,19 @@ public class ModelController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMINISTRATIVE', 'SUPERUSER')")
     public Model create(@RequestBody @Valid Model model) throws UniqueValueException {
         return modelService.create(model);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRATIVE', 'SUPERUSER')")
     public Model update(@PathVariable Integer id, @RequestBody @Valid Model model) throws UniqueValueException {
         return modelService.update(id, model);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Model delete(@PathVariable Integer id) {
         return modelService.delete(id);
     }

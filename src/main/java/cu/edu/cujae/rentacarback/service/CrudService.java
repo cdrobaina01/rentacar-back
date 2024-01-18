@@ -23,8 +23,8 @@ public abstract class CrudService<Entity, Key> {
     }
 
     public Entity create(Entity entity) throws UniqueValueException {
-        // validateAvailableKey(entity);
-        // validateExistingForeignKeys(entity);
+        validateAvailableKey(entity);
+        validateExistingForeignKeys(entity);
         return repository().save(entity);
     }
 

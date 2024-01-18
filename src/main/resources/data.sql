@@ -61,13 +61,14 @@ INSERT INTO contract (plate, startdate, passport, paymethod_id, driver_dni, endd
 INSERT INTO contract (plate, startdate, passport, paymethod_id, driver_dni, enddate, deliverydate, startkm, endkm, value) VALUES ('T100007', '2023-10-29', 'LJK556281', 1, NULL, '2023-12-23', NULL, 1800, NULL, 1085);
 
 INSERT INTO role (name, description) VALUES ('ROLE_ADMIN', 'Administrator');
-INSERT INTO role (name, description) VALUES ('ROLE_SUPERUSER', 'High Permissions Worker, e.g. Supervisor');
-INSERT INTO role (name, description) VALUES ('ROLE_USER', 'Regular Worker');
-INSERT INTO role (name, description) VALUES ('ROLE_DRIVER', 'Driver Worker');
-INSERT INTO role (name, description) VALUES ('ROLE_CLIENT', 'Tourist Client');
+INSERT INTO role (name, description) VALUES ('ROLE_SUPERUSER', 'High Permissions Employee, e.g. Supervisor');
+INSERT INTO role (name, description) VALUES ('ROLE_COMMERCIAL', 'Regular Employee dealing with clients');
+INSERT INTO role (name, description) VALUES ('ROLE_ADMINISTRATIVE', 'Administrative Employee');
+-- INSERT INTO role (name, description) VALUES ('ROLE_DRIVER', 'Driver Worker');
+-- INSERT INTO role (name, description) VALUES ('ROLE_CLIENT', 'Tourist Client');
 
 INSERT INTO users (username, email, password, name, role) VALUES ('admin', 'cdrobayna01@gmail.com', '$2a$12$Fp0.9ip8awWNBin025evqelhKmMAuMPE4SeluHhV1vD3pN1ACegTe', 'Kevin Martínez', 'ROLE_ADMIN');
 INSERT INTO users (username, email, password, name, role) VALUES ('superuser', 'luismiguellagosxenes@gmail.com', '$2a$12$P2xt7r2pSSvWP7oKr4s2e..Rdy86/oqo8XewNvQ0VL7ZU40Gg6asW', 'Indira Tamayo', 'ROLE_SUPERUSER');
 INSERT INTO users (username, email, password, name, role) VALUES ('user', 'cdrobayna01@gmail.com', '$2a$12$g4yHbyqAooSmX5fthYxg.uV6bVyTTKUvSqbl1S1RLNBtUg2dIKXZm', 'Lorena García', 'ROLE_USER');
-INSERT INTO users (username, email, password, name, role) VALUES ('driver', 'luismiguellagosxenes@gmail.com', '$2a$12$WSJZqM6neAfR1LFSRASuw.hPE2REBY3QwZYQWxCkP8KzI.PGEUEUO', 'Gabriel Ulloa', 'ROLE_DRIVER');
-INSERT INTO users (username, email, password, name, role) VALUES ('client', 'cdrobayna01@gmail.com', '$2a$12$vvU8NdN6Gsq0Fnb8nXj7ZOjX6kga42LSts9HOF2nqwDYz08jSwBl.', 'Nestor Díaz', 'ROLE_CLIENT');
+-- INSERT INTO users (username, email, password, name, role) VALUES ('driver', 'luismiguellagosxenes@gmail.com', '$2a$12$WSJZqM6neAfR1LFSRASuw.hPE2REBY3QwZYQWxCkP8KzI.PGEUEUO', 'Gabriel Ulloa', 'ROLE_DRIVER');
+-- INSERT INTO users (username, email, password, name, role) VALUES ('client', 'cdrobayna01@gmail.com', '$2a$12$vvU8NdN6Gsq0Fnb8nXj7ZOjX6kga42LSts9HOF2nqwDYz08jSwBl.', 'Nestor Díaz', 'ROLE_CLIENT');

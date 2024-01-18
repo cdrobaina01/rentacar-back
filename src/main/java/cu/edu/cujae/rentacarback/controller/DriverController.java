@@ -5,6 +5,7 @@ import cu.edu.cujae.rentacarback.model.Driver;
 import cu.edu.cujae.rentacarback.service.DriverService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,16 +27,19 @@ public class DriverController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Driver create(@RequestBody @Valid Driver driver) throws UniqueValueException {
             return driverService.create(driver);
     }
 
     @PutMapping("/{dni}")
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Driver update(@PathVariable String dni, @RequestBody @Valid Driver driver) throws UniqueValueException {
             return driverService.update(dni, driver);
     }
 
     @DeleteMapping("/{dni}")
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Driver delete(@PathVariable String dni) {
         return driverService.delete(dni);
     }

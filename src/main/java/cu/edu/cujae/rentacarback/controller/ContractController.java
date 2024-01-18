@@ -50,6 +50,7 @@ public class ContractController {
     }
 
     @DeleteMapping("/{plate}/{date}")
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Contract delete(@PathVariable String plate, @PathVariable LocalDate date) {
         return contractService.delete(new ContractPK(plate, date));
     }

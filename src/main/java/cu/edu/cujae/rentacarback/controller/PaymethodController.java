@@ -5,6 +5,7 @@ import cu.edu.cujae.rentacarback.model.Paymethod;
 import cu.edu.cujae.rentacarback.service.PaymethodService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,16 +27,19 @@ public class PaymethodController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Paymethod create(@RequestBody @Valid Paymethod paymethod) throws UniqueValueException {
         return paymethodService.create(paymethod);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Paymethod update(@PathVariable Integer id, @RequestBody @Valid Paymethod paymethod) throws UniqueValueException {
         return paymethodService.update(id, paymethod);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Paymethod delete(@PathVariable Integer id) {
         return paymethodService.delete(id);
     }

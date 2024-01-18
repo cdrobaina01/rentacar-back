@@ -5,6 +5,7 @@ import cu.edu.cujae.rentacarback.model.Brand;
 import cu.edu.cujae.rentacarback.service.BrandService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,16 +27,19 @@ public class BrandController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMINISTRATIVE', 'SUPERUSER')")
     public Brand create(@RequestBody @Valid Brand brand) throws UniqueValueException {
         return brandService.create(brand);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMINISTRATIVE', 'SUPERUSER')")
     public Brand update(@PathVariable Integer id, @RequestBody @Valid Brand brand) throws UniqueValueException {
         return brandService.update(id, brand);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPERUSER')")
     public Brand delete(@PathVariable Integer id) {
         return brandService.delete(id);
     }
