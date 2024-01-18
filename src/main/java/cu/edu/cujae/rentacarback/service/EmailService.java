@@ -6,6 +6,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.time.temporal.ChronoUnit;
+
 @Service
 @RequiredArgsConstructor
 public class EmailService {
@@ -35,7 +37,16 @@ public class EmailService {
 
         touristNotification.setTo(contract.getTourist().getEmail());
         touristNotification.setSubject("Signed Contract with Rider: Rent the Bests Cars");
-        touristNotification.setText("You can check your contract details at: ");
+        touristNotification.setText(
+                "You can check your contract details:\n" +
+                        "- Start Date: " + contract.getStartDate() + "\n" +
+                        "- End Date: " + contract.getEndDate() + "\n" +
+                        "- Duration: " + Math.toIntExact(contract.getStartDate().until(contract.getEndDate(), ChronoUnit.DAYS)) + "Days" + "\n" +
+                        "- Car: " + contract.getCar().getModel().getBrand().getName() + " " + contract.getCar().getModel().getName() + "\n" +
+                        "- Plate: " + contract.getCar().getPlate() + "\n" +
+                        "- Partial Cost: $" + contract.getValue() + "\n" +
+                        "- To pay with: " + contract.getPaymethod() + "\n"
+        );
 
         mailSender.send(driverNotification);
         mailSender.send(touristNotification);
