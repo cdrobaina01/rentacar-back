@@ -36,7 +36,7 @@ public class Tourist {
     private TouristGender gender;
 
     @Column(name = "country", nullable = false)
-    @Size(min = 3, max = 4)
+    @Size(min = 3, max = 10)
     private String country;
 
     @OneToMany(mappedBy = "tourist")
