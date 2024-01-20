@@ -69,6 +69,6 @@ INSERT INTO role (name, description) VALUES ('ROLE_ADMINISTRATIVE', 'Administrat
 
 INSERT INTO users (username, email, password, name, role) VALUES ('admin', 'cdrobayna01@gmail.com', '$2a$12$Fp0.9ip8awWNBin025evqelhKmMAuMPE4SeluHhV1vD3pN1ACegTe', 'Kevin Martínez', 'ROLE_ADMIN');
 INSERT INTO users (username, email, password, name, role) VALUES ('superuser', 'luismiguellagosxenes@gmail.com', '$2a$12$P2xt7r2pSSvWP7oKr4s2e..Rdy86/oqo8XewNvQ0VL7ZU40Gg6asW', 'Indira Tamayo', 'ROLE_SUPERUSER');
-INSERT INTO users (username, email, password, name, role) VALUES ('user', 'cdrobayna01@gmail.com', '$2a$12$g4yHbyqAooSmX5fthYxg.uV6bVyTTKUvSqbl1S1RLNBtUg2dIKXZm', 'Lorena García', 'ROLE_USER');
+INSERT INTO users (username, email, password, name, role) VALUES ('user', 'cdrobayna01@gmail.com', '$2a$12$g4yHbyqAooSmX5fthYxg.uV6bVyTTKUvSqbl1S1RLNBtUg2dIKXZm', 'Lorena García', 'ROLE_COMMERCIAL');
 -- INSERT INTO users (username, email, password, name, role) VALUES ('driver', 'luismiguellagosxenes@gmail.com', '$2a$12$WSJZqM6neAfR1LFSRASuw.hPE2REBY3QwZYQWxCkP8KzI.PGEUEUO', 'Gabriel Ulloa', 'ROLE_DRIVER');
 -- INSERT INTO users (username, email, password, name, role) VALUES ('client', 'cdrobayna01@gmail.com', '$2a$12$vvU8NdN6Gsq0Fnb8nXj7ZOjX6kga42LSts9HOF2nqwDYz08jSwBl.', 'Nestor Díaz', 'ROLE_CLIENT');
